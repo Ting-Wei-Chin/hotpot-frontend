@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const STAFF_PASSWORD = '1'
+const PASSWORDS = { '1': 'production', 'test': 'test' }
 
 function LoginPage({ onLogin }) {
   const [password, setPassword] = useState('')
@@ -8,8 +8,9 @@ function LoginPage({ onLogin }) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (password === STAFF_PASSWORD) {
-      onLogin()
+    const mode = PASSWORDS[password]
+    if (mode) {
+      onLogin(mode)
     } else {
       setError('密碼錯誤，請重試')
       setPassword('')

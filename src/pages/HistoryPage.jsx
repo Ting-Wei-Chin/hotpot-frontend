@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import API from '../api'
+import { apiFetch } from '../api'
 
 function HistoryPage() {
   const [orders, setOrders] = useState([])
@@ -11,9 +11,9 @@ function HistoryPage() {
     setLoading(true)
     try {
       const [allOrders, stats, plateStats] = await Promise.all([
-        fetch(`${API}/orders`).then(r => r.json()),
-        fetch(`${API}/dashboard/today`).then(r => r.json()),
-        fetch(`${API}/dashboard/plates`).then(r => r.json()),
+        apiFetch('/orders').then(r => r.json()),
+        apiFetch('/dashboard/today').then(r => r.json()),
+        apiFetch('/dashboard/plates').then(r => r.json()),
       ])
       setOrders(allOrders.filter(o => o.status === 'paid'))
       setTodayStats(stats)
