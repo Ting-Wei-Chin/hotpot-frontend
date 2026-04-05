@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API from '../api'
 
 function MenuPage() {
   const [menu, setMenu] = useState([])
@@ -9,7 +10,7 @@ function MenuPage() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch('/api/menu').then(r => r.json()).then(setMenu)
+    fetch(`${API}/menu`).then(r => r.json()).then(setMenu)
   }, [])
 
   const totalQty = Object.values(cart).reduce((s, i) => s + i.qty, 0)
@@ -34,7 +35,7 @@ function MenuPage() {
     if (cartItems.length === 0) return setMessage({ type: 'error', text: '⚠️ 請選擇至少一項餐點！' })
     setLoading(true)
     try {
-      const res = await fetch('/api/order', {
+      const res = await fetch(`${API}/order`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ table: parseInt(tableId), items: cartItems })

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import API from '../api'
 
 function ActiveTablesPage() {
   const [orders, setOrders] = useState([])
@@ -7,7 +8,7 @@ function ActiveTablesPage() {
 
   const fetchOrders = async () => {
     setLoading(true)
-    const res = await fetch('/api/orders')
+    const res = await fetch(`${API}/orders`)
     const data = await res.json()
     const active = data.filter(o => o.status === 'active')
     setOrders(active)
@@ -25,7 +26,7 @@ function ActiveTablesPage() {
 
   const checkout = async (tableId) => {
     setCheckingOut(tableId)
-    await fetch(`/api/checkout/${tableId}`, { method: 'PUT' })
+    await fetch(`${API}/checkout/${tableId}`, { method: 'PUT' })
     await fetchOrders()
     setCheckingOut(null)
   }
